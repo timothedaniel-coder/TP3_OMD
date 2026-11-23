@@ -8,6 +8,11 @@
   <name>tpmaven</name>
   <url>http://maven.apache.org</url>
 
+  <scm>
+    <connection>scm:git:https://github.com/timothedaniel-coder/TP3_OMD.git</connection>
+    <url>https://github.com/timothedaniel-coder/TP3_OMD</url>
+  </scm>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
@@ -15,10 +20,11 @@
   </properties>
 
   <dependencies>
+    <!-- JUnit 4 pour les tests unitaires -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
 
@@ -75,6 +81,13 @@
         </configuration>
       </plugin>
 
+      <!-- Plugin pour exécuter les tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.2</version>
+      </plugin>
+
       <!-- Plugin pour exécuter JavaFX -->
       <plugin>
         <groupId>org.openjfx</groupId>
@@ -84,6 +97,129 @@
           <mainClass>fr.esir.omd.ci.App</mainClass>
         </configuration>
       </plugin>
+
+      <!-- Plugins pour la génération du site Maven -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.21.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.8.0</version>
+      </plugin>
+
+      <!-- Plugin JaCoCo (couverture de tests) -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <executions>
+          <execution>
+            <id>default-prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <destFile>target/jacoco.exec</destFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <dataFile>target/jacoco.exec</dataFile>
+              <outputDirectory>target/jacoco-report</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Plugin SCM -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <version>2.1.0</version>
+      </plugin>
+
+      <!-- Plugin Git Changelog -->
+      <plugin>
+        <groupId>se.bjurr.gitchangelog</groupId>
+        <artifactId>git-changelog-maven-plugin</artifactId>
+        <version>2.2.0</version>
+        <executions>
+          <execution>
+            <id>GenerateGitChangelogTemplateFromFile</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>git-changelog</goal>
+            </goals>
+            <configuration>
+              <useIntegrations>true</useIntegrations>
+              <templateFile>src/main/resources/changelog.mustache</templateFile>
+              <readableTagName>-([^-]+?)$</readableTagName>
+              <file>CHANGELOG.md</file>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <!-- Javadoc -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.11.1</version>
+      </plugin>
+
+      <!-- Checkstyle (norme Google) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.6.0</version>
+        <configuration>
+          <configLocation>google_checks.xml</configLocation>
+        </configuration>
+      </plugin>
+
+      <!-- Rapport croisé de sources (JXR) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>3.6.0</version>
+      </plugin>
+
+      <!-- Rapport JaCoCo -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+
+      <!-- Rapport PMD et CPD -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.26.0</version>
+        <configuration>
+          <linkXref>true</linkXref>
+          <minimumTokens>100</minimumTokens>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
