@@ -54,6 +54,13 @@
       <artifactId>javafx-fxml</artifactId>
       <version>21.0.5</version>
     </dependency>
+
+    <!-- SLF4J et Logback pour la journalisation -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.5.12</version>
+    </dependency>
   </dependencies>
 
   <build>

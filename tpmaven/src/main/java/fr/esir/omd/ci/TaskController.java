@@ -4,8 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TaskController {
+    private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
+
     @FXML
     private TextField titleField;
     @FXML
@@ -20,23 +24,25 @@ public class TaskController {
     private TaskManager manager;
     private FileHandler fileHandler;
 
-    public TaskController(){
+    public TaskController() {
         manager = new TaskManager();
         fileHandler = new FileHandler();
     }
 
     public void initialize() {
+        logger.debug("Configuration des boutons de l'interface TaskView");
         saveJsonButton.setOnAction(e -> saveTask("json"));
         saveCsvButton.setOnAction(e -> saveTask("csv"));
         savePdfButton.setOnAction(e -> saveTask("pdf"));
     }
 
     private void saveTask(String format) {
+        logger.debug("Action d'enregistrement déclenchée pour le format : {}", format);
         String title = titleField.getText();
         String description = descriptionField.getText();
 
         if (title.isEmpty() || description.isEmpty()) {
-            System.out.println("Les champs Titre et Description doivent être remplis.");
+            logger.warn("Enregistrement annulé : les champs Titre et Description doivent être remplis.");
             return;
         }
 
@@ -55,10 +61,10 @@ public class TaskController {
                     fileHandler.generatePdf(manager.getTasks(), "tasks.pdf");
                     break;
                 default:
-                    System.out.println("Format non supporté : " + format);
+                    logger.warn("Format non supporté : {}", format);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Erreur lors de l'enregistrement au format {}", format, e);
         }
     }
 }
