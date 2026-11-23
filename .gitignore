@@ -1,8 +1,20 @@
 # Compiled class file
 *.class
 
-# Log file
+# Log files & folders
 *.log
+logs/
+
+# Maven
+target/
+
+# IDE (VSCode / Eclipse / IntelliJ)
+.vscode/
+.classpath
+.project
+.settings/
+.idea/
+*.iml
 
 # BlueJ files
 *.ctxt
