@@ -5,6 +5,11 @@ Changelog for timothedaniel-coder TP3_OMD.
 ## Unreleased
 ### No issue
 
+**part_6**
+
+
+[0af5e153731d479](https://github.com/timothedaniel-coder/TP3_OMD/commit/0af5e153731d479) Timothé Daniel *2026-11-23 08:29:50*
+
 **part_5**
 
 
